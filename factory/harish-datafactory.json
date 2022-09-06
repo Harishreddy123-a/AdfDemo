@@ -1,0 +1,9 @@
+{
+	"name": "harish-datafactory",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8a622ecd-42c6-4ba4-8d12-81a5474df320",
+		"tenantId": "d2adb214-c3e0-4c71-b5b7-75162b527949"
+	}
+}

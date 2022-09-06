@@ -1,0 +1,19 @@
+{
+	"name": "ls_KeyVault",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_key",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "Secret-Harish",
+				"secretVersion": "4b2edc250c9246a6991e3743f8e0a27f"
+			}
+		}
+	}
+}

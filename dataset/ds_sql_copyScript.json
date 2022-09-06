@@ -1,0 +1,17 @@
+{
+	"name": "ds_sql_copyScript",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_Sql1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "sales01"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

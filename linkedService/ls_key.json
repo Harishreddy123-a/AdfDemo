@@ -1,0 +1,11 @@
+{
+	"name": "ls_key",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://Kv-Harish.vault.azure.net/"
+		}
+	}
+}

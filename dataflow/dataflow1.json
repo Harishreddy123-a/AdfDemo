@@ -1,0 +1,134 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_emp_Synapse",
+						"type": "DatasetReference"
+					},
+					"name": "empSyn"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_source",
+						"type": "DatasetReference"
+					},
+					"name": "empdl"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_harish_Synapse",
+						"type": "DatasetReference"
+					},
+					"name": "empsinkinsert"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_harish_Synapse_Sink",
+						"type": "DatasetReference"
+					},
+					"name": "empsinkupdate"
+				}
+			],
+			"transformations": [
+				{
+					"name": "alterRowinsert"
+				},
+				{
+					"name": "alterRowupsert"
+				},
+				{
+					"name": "conditionupsert"
+				},
+				{
+					"name": "renameid"
+				},
+				{
+					"name": "lookup1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as integer,",
+				"          name as string,",
+				"          sal as integer,",
+				"          company as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table',",
+				"     staged: true) ~> empSyn",
+				"source(output(",
+				"          id as integer,",
+				"          name as string,",
+				"          sal as integer,",
+				"          company as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> empdl",
+				"conditionupsert@empinsert alterRow(insertIf(1==1)) ~> alterRowinsert",
+				"conditionupsert@empupsert alterRow(updateIf(1==1)) ~> alterRowupsert",
+				"lookup1 split(!isNull(targetid),",
+				"     !isNull(targetid),",
+				"     disjoint: false) ~> conditionupsert@(empupsert, empinsert)",
+				"empSyn select(mapColumn(",
+				"          targetid = id,",
+				"          name,",
+				"          sal,",
+				"          company",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> renameid",
+				"empdl, renameid lookup(id == targetid,",
+				"     multiple: false,",
+				"     pickup: 'first',",
+				"     asc(targetid, true),",
+				"     broadcast: 'auto')~> lookup1",
+				"alterRowinsert sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id,",
+				"          name,",
+				"          sal,",
+				"          company",
+				"     )) ~> empsinkinsert",
+				"alterRowupsert sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     keys:['id'],",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id,",
+				"          name = conditionupsert@empupsert@name,",
+				"          sal = conditionupsert@empupsert@sal,",
+				"          company = conditionupsert@empupsert@company",
+				"     )) ~> empsinkupdate"
+			]
+		}
+	}
+}

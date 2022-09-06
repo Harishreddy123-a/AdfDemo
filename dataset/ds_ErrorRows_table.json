@@ -1,0 +1,17 @@
+{
+	"name": "ds_ErrorRows_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_Sql1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "sales_Bad"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
