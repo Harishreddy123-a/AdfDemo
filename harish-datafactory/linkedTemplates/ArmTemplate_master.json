@@ -1,0 +1,172 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "harish-datafactory"
+		},
+		"Ls_DataLake_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'Ls_DataLake'"
+		},
+		"ls_SQL_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_SQL'"
+		},
+		"ls_Sql1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_Sql1'"
+		},
+		"ls_harish_Synapse_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_harish_Synapse'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://harishdl.dfs.core.windows.net/"
+		},
+		"Ls_DataLake_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://harishdl.dfs.core.windows.net/"
+		},
+		"ls_KeyVault_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "Secret-Harish"
+		},
+		"ls_gen2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://harishdl.dfs.core.windows.net/"
+		},
+		"ls_key_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://Kv-Harish.vault.azure.net/"
+		},
+		"Event_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/77d7c97e-1239-4a5a-94e3-421c7e2bb1e5/resourceGroups/harish_rg/providers/Microsoft.Storage/storageAccounts/harishdl"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "harish-datafactory_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Ls_DataLake_accountKey": {
+						"value": "[parameters('Ls_DataLake_accountKey')]"
+					},
+					"ls_SQL_connectionString": {
+						"value": "[parameters('ls_SQL_connectionString')]"
+					},
+					"ls_Sql1_connectionString": {
+						"value": "[parameters('ls_Sql1_connectionString')]"
+					},
+					"ls_harish_Synapse_connectionString": {
+						"value": "[parameters('ls_harish_Synapse_connectionString')]"
+					},
+					"Ls_DataLake_properties_typeProperties_url": {
+						"value": "[parameters('Ls_DataLake_properties_typeProperties_url')]"
+					},
+					"ls_key_properties_typeProperties_baseUrl": {
+						"value": "[parameters('ls_key_properties_typeProperties_baseUrl')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "harish-datafactory_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureDataLakeStorage1_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"ls_KeyVault_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('ls_KeyVault_properties_typeProperties_connectionString_secretName')]"
+					},
+					"ls_gen2_properties_typeProperties_url": {
+						"value": "[parameters('ls_gen2_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'harish-datafactory_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "harish-datafactory_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'harish-datafactory_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "harish-datafactory_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Event_properties_typeProperties_scope": {
+						"value": "[parameters('Event_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'harish-datafactory_ArmTemplate_2')]"
+			]
+		}
+	]
+}

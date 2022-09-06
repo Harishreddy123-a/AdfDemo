@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "harish-datafactory"
+		},
+		"Ls_DataLake_accountKey": {
+			"value": ""
+		},
+		"ls_SQL_connectionString": {
+			"value": ""
+		},
+		"ls_Sql1_connectionString": {
+			"value": ""
+		},
+		"ls_harish_Synapse_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://harishdl.dfs.core.windows.net/"
+		},
+		"Ls_DataLake_properties_typeProperties_url": {
+			"value": "https://harishdl.dfs.core.windows.net/"
+		},
+		"ls_KeyVault_properties_typeProperties_connectionString_secretName": {
+			"value": "Secret-Harish"
+		},
+		"ls_gen2_properties_typeProperties_url": {
+			"value": "https://harishdl.dfs.core.windows.net/"
+		},
+		"ls_key_properties_typeProperties_baseUrl": {
+			"value": "https://Kv-Harish.vault.azure.net/"
+		},
+		"Event_properties_typeProperties_scope": {
+			"value": "/subscriptions/77d7c97e-1239-4a5a-94e3-421c7e2bb1e5/resourceGroups/harish_rg/providers/Microsoft.Storage/storageAccounts/harishdl"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
