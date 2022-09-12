@@ -1,0 +1,24 @@
+{
+	"name": "Tr_Sc_Sample",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Pl_sample",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 1,
+				"startTime": "2022-09-12T15:37:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}
